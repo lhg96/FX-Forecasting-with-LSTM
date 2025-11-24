@@ -121,32 +121,7 @@ Exchange rates play a crucial role in international trade and financial transact
 - Model performance improvement through hyperparameter tuning and cross-validation
 - Visualization of model prediction results using matplotlib, seaborn, etc.
 
-## Project Team Roles
-### (Team Leader) Min-Hoe Choi
-- Data Collection: Collection of economic factors affecting exchange rate fluctuations
-- Data Preprocessing
-- Variable relationship analysis
-- LSTM Analysis
-
-### (Deputy Team Leader) Ga-Eun Lee
-- Data Collection: Collection of international factors affecting exchange rate fluctuations
-- Variable relationship analysis
-- LSTM Analysis
-
-### Bong-Ho Jeong
-- Data Collection: Collection of economic factors affecting exchange rate fluctuations
-- Variable relationship analysis
-- Presentation preparation
-
-### Ju-Ri Kim
-- Data Collection: Collection of political factors affecting exchange rate fluctuations
-- Variable relationship analysis
-- Presentation preparation
-
-### Se-Ri Park
-- Data Collection: Collection of other factors affecting exchange rate fluctuations
-- Variable relationship analysis
-- Presentation preparation
+# Reference Project and Data
 
 ## Data Collection Results & Variable Information
 [Variable Definition Document](https://drive.google.com/file/d/1Z9AiCpSk4J18TB8ZNDzlfCD1_RycqtTm/view?usp=drive_link)
@@ -172,23 +147,6 @@ Quandl for various fields including finance, economy, and politics <br>
 Federal Reserve Economic Data FRED <br>
 Monthly exchange rate information Korea Financial Investment Association (KOFIA) <br>
 
-## Topics
-
-Recommended GitHub topics for this repository:
-- machine-learning
-- lstm
-- tensorflow
-- forex
-- exchange-rate
-- time-series
-- gradio
-- python
-- data-analysis
-- finance
-- neural-networks
-- prediction-model
-- economic-indicators
-- deep-learning
 
 📞 Contact
 
