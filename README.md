@@ -126,10 +126,10 @@ Exchange rates play a crucial role in international trade and financial transact
 ## Data Collection Results & Variable Information
 [Variable Definition Document](https://drive.google.com/file/d/1Z9AiCpSk4J18TB8ZNDzlfCD1_RycqtTm/view?usp=drive_link)
 
-## First Project Data Collection & Merge Results .Xlsx
+## Data Collection & Merge Results .Xlsx
 [Data Collection & Merge Results](https://docs.google.com/spreadsheets/d/14yVyN6oG2umclZfPiCliIeosqULaqW2F/edit?usp=drive_link&ouid=109969025433946755539&rtpof=true&sd=true)
 
-## First Project Presentation PPT
+## Data Analysis PPT
 [Presentation PPT](https://drive.google.com/file/d/1U3wUtxpbSYHml1eDXpqzKvp6Hcfzx-Kc/view?usp=drive_link)
 
 ## Sources
@@ -148,26 +148,27 @@ Federal Reserve Economic Data FRED <br>
 Monthly exchange rate information Korea Financial Investment Association (KOFIA) <br>
 
 
-📞 Contact
+## 📞 문의하기
 
-We provide consulting and outsourcing for development projects.
+**개발 관련 컨설팅 및 외주 받습니다.**
 
-👨‍💼 Project Manager Contact
+### 👨‍💼 프로젝트 관리자 연락처
 
-Email: hyun.lim@okkorea.net
-Homepage: https://www.okkorea.net
-LinkedIn: https://www.linkedin.com/in/aionlabs/
+**Email**: [hyun.lim@okkorea.net](mailto:hyun.lim@okkorea.net)  
+**Homepage**: [https://www.okkorea.net](https://www.okkorea.net)  
+**LinkedIn**: [https://www.linkedin.com/in/aionlabs/](https://www.linkedin.com/in/aionlabs/)  
 
-🛠️ Expertise
+### 🛠️ 전문 분야
 
-IoT System Design and Development
-Embedded Software Development (Arduino, ESP32)
-AI Service Development (LLM, MCP Agent)
-Cloud Service Construction (Google Cloud Platform)
-Hardware Prototyping
-💼 Services
+- **IoT 시스템 설계 및 개발**
+- **임베디드 소프트웨어 개발** (Arduino, ESP32)
+- **AI 서비스 개발** (LLM, MCP Agent)
+- **클라우드 서비스 구축** (Google Cloud Platform)
+- **하드웨어 프로토타이핑**
 
-Technical Consulting: IoT project planning and design consultation
-Development Outsourcing: Full-stack development from firmware to cloud
-Education Services: Embedded/IoT development education and mentoring
+### 💼 서비스
+
+- **기술 컨설팅**: IoT 프로젝트 기획 및 설계 자문
+- **개발 외주**: 펌웨어부터 클라우드까지 Full-stack 개발
+- **교육 서비스**: 임베디드/IoT 개발 교육 및 멘토링
 
