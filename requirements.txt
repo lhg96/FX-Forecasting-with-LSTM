@@ -1,0 +1,13 @@
+beautifulsoup4
+lxml
+matplotlib
+numpy
+openpyxl
+pandas
+requests
+scikit-learn
+tensorflow
+pytest
+gradio
+python-multipart
+FinanceDataReader
