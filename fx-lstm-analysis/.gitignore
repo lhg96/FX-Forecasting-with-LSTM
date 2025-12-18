@@ -1,0 +1,48 @@
+# Jupyter Notebook 체크포인트
+.ipynb_checkpoints/
+
+# Python 캐시
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 가상환경
+venv/
+env/
+ENV/
+.venv
+
+# 데이터 파일
+*.xlsx
+*.csv
+*.h5
+*.ckpt*
+*.pb
+
+# 출력 파일
+output/*.png
+output/*.jpg
+output/*.pdf
+
+# IDE 설정
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS 파일
+.DS_Store
+Thumbs.db
+
+# 모델 파일 (용량이 큰 경우)
+models/*.h5
+models/*.ckpt
+
+# 로그 파일
+*.log
+
+# Tensorflow 캐시
+.tensorboard/
+logs/
