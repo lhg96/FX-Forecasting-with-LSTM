@@ -121,16 +121,262 @@ Exchange rates play a crucial role in international trade and financial transact
 - Model performance improvement through hyperparameter tuning and cross-validation
 - Visualization of model prediction results using matplotlib, seaborn, etc.
 
-# Reference Project and Data
+---
 
-## Data Collection Results & Variable Information
-[Variable Definition Document](https://drive.google.com/file/d/1Z9AiCpSk4J18TB8ZNDzlfCD1_RycqtTm/view?usp=drive_link)
+## EDA and Overview LSTM
 
-## Data Collection & Merge Results .Xlsx
-[Data Collection & Merge Results](https://docs.google.com/spreadsheets/d/14yVyN6oG2umclZfPiCliIeosqULaqW2F/edit?usp=drive_link&ouid=109969025433946755539&rtpof=true&sd=true)
+# Summary of EDA and Exchange Rate Prediction Model (Based on PPT)
 
-## Data Analysis PPT
-[Presentation PPT](https://drive.google.com/file/d/1U3wUtxpbSYHml1eDXpqzKvp6Hcfzx-Kc/view?usp=drive_link)
+---
+
+## 1. Exploratory Data Analysis (EDA)
+
+### 1.1 Purpose
+EDA was conducted to analyze the USD/KRW exchange rate as a **multivariate macroeconomic system**, rather than a series driven by technical trading indicators.  
+The goal was to identify patterns, dependencies, and key influencing factors to support subsequent predictive modeling.
+
+---
+
+### 1.2 Data Collection and Initial Exploration
+
+- **Time Coverage**
+  - Data collected from 1998 onward
+  - Mixed frequencies: daily, monthly, quarterly
+
+- **Analytical Scope**
+  - Technical indicators (MA, RSI, etc.) explicitly excluded
+  - Focus on macroeconomic, financial, international, and sentiment variables
+
+- **Variable Categories**
+  - **Economic Factors**
+    - GDP, economic growth rate, government expenditure, gross national income
+    - Money supply (M1, M2, M3)
+  - **Financial Factors**
+    - Policy interest rate, bond yields
+    - Foreign exchange reserves
+    - Foreign ownership ratio
+    - Equity indices (KOSPI, S&P 500)
+  - **International Factors**
+    - CRB Index
+    - Commodity prices (gold, crude oil, natural gas)
+    - Global semiconductor index
+  - **Political & Sentiment Factors**
+    - VIX
+    - US Dollar Index (DXY)
+    - News sentiment index
+    - Consumer sentiment index
+    - Governing party indicator
+
+- **Objective**
+  - To explore multivariate relationships driving exchange rate movements
+
+---
+
+### 1.3 Data Preprocessing
+
+- **Temporal Alignment**
+  - All variables aligned to monthly frequency
+  - Daily data aggregated by monthly mean
+  - Quarterly data interpolated to monthly values
+
+- **Date Standardization**
+  - Unified to `YYYY-MM` format
+
+- **Missing Value Handling**
+  - Forward fill and linear interpolation applied
+
+- **Scaling**
+  - Standard Scaling applied to all variables
+
+- **Final Dataset**
+  - Shape: **(303, 84)**
+    - 303 monthly observations
+    - 84 independent variables
+  - Problem formulation: multivariate regression
+
+---
+
+### 1.4 Variable Relationship Analysis
+
+- **Models Applied**
+  - Linear Regression
+  - Ridge
+  - Lasso
+  - Elastic Net
+  - Random Forest
+
+- **Evaluation Metric**
+  - R² score
+
+- **Findings**
+  - High explanatory power observed
+  - Significant overfitting risk identified
+
+- **Conclusion**
+  - USD/KRW exchange rate behaves as a complex system
+  - Single-variable explanations are insufficient
+
+---
+
+## 2. Exchange Rate Prediction Model
+
+### 2.1 Problem Definition and Approach
+
+- **Target Variable**
+  - USD/KRW exchange rate
+
+- **Objective**
+  - Forecast exchange rates using macroeconomic, financial, international, and sentiment indicators
+
+- **Approach**
+  - Multivariate time-series modeling
+  - Baseline machine learning models followed by deep learning (LSTM)
+
+---
+
+### 2.2 Modeling Workflow
+
+- **Baseline Model Comparison**
+  - Linear Regression, Ridge, Lasso, Elastic Net, Random Forest
+  - R²-based evaluation
+  - Overfitting identified as a limitation
+
+- **Cross-Validation Strategy**
+  - Conventional CV rejected due to time-series leakage
+  - Time-series cross-validation applied
+  - Sequential Train → Validation split
+
+---
+
+## 3. LSTM Model Implementation
+
+### 3.1 Rationale for LSTM
+
+- Designed to capture long-term dependencies in time-series data
+- Supported by prior research demonstrating superior performance
+- Role defined as a **multivariate time-series pattern learner**
+- Focus on short-term prediction (1–2 days ahead)
+
+---
+
+### 3.2 Input Variable Selection
+
+- **Initial Candidates**
+  - USD/KRW
+  - US Dollar Index (DXY)
+  - VIX
+  - CRB Commodity Index
+
+- **Final Variables**
+  - USD/KRW
+  - DXY
+  - CRB Index
+  - (VIX excluded due to MAE increase)
+
+- **Dataset Characteristics**
+  - Daily data since 1998
+  - Early 1998 outliers removed
+  - Monthly data replaced with daily data to increase sample size
+
+- **Input Shape**
+  - `(samples, 10, 3)`
+    - Past 10 days
+    - 3 features (USD/KRW, CRB, DXY)
+
+---
+
+### 3.3 Data Preprocessing for LSTM
+
+- **Missing Values**
+  - Rows with all-null values removed
+  - Forward fill selected over interpolation due to better performance
+
+- **Scaling**
+  - Manual standardization:
+    - `(value - mean) / std`
+  - Inverse transformation:
+    - `prediction * std + mean` (USD/KRW statistics)
+
+- **Train / Validation Split**
+  - 90% training, 10% validation
+  - Sliding window generation:
+    - History size: 10
+    - Target size: 1
+    - Step size: 1
+
+### 3.4 Model Architecture
+
+- **Framework**
+  - TensorFlow / Keras
+
+- **Network Structure**
+  ```python
+  Sequential(
+      LSTM(200, activation="tanh", input_shape=(10, 3)),
+      Dense(1)
+  )
+  ```
+  - Configuration
+    - Optimizer: RMSprop
+    - Loss Function: MAE
+### 3.5 Training Strategy
+
+- Batch size: 32  
+- Epochs: 100  
+- EarlyStopping applied to monitor validation loss and prevent overfitting  
+- ModelCheckpoint used to save the best-performing model weights based on minimum validation loss  
+
+---
+
+### 3.6 Model Evaluation
+
+- **Evaluation Metrics**
+  - MAE (Mean Absolute Error): approximately 3.8–3.9 KRW
+  - R² score for overall explanatory power
+  - Error distribution:
+    - Maximum error: ~34 KRW
+    - Majority of errors: below 23 KRW
+
+- **Visualization**
+  - Training vs. validation loss curves
+  - Absolute prediction error scatter plots
+  - Actual vs. predicted USD/KRW exchange rate time series
+
+---
+
+### 3.7 Prediction Process
+
+- **Next-Day Forecasting**
+  - Standardize the most recent 10 days of input data
+  - Reshape input to `(1, 10, 3)`
+  - Generate prediction using the trained LSTM model
+  - Apply inverse scaling to recover the predicted exchange rate level
+  - Output: next-day USD/KRW exchange rate estimate
+
+- **Trend Estimation**
+  - Apply a 2-day moving average to recent data
+  - Infer trend direction from the sign of change between predicted and previous values
+
+---
+
+## 4. Performance and Limitations
+
+- **Achievements**
+  - High short-term prediction accuracy with MAE around 3.8 KRW
+  - Enhanced directional interpretation through moving average integration
+
+- **Limitations**
+  - Prediction error increases with longer forecast horizons
+  - Limited variable set restricts broader macroeconomic interpretation
+
+- **Future Work**
+  - Ensemble modeling with alternative architectures
+  - Incorporation of multiple moving average horizons (2, 5, 10 days)
+  - Deployment as a web-based exchange rate forecasting service
+
+
+
+
 
 ## Sources
 Korea Capital Market Institute https://www.kcif.or.kr/front/board/boardList.do?intSection1=2&intSection2=4&intBoardID=1 <br>
@@ -146,6 +392,8 @@ Financial data Yahoo Finance <br>
 Quandl for various fields including finance, economy, and politics <br>
 Federal Reserve Economic Data FRED <br>
 Monthly exchange rate information Korea Financial Investment Association (KOFIA) <br>
+
+---
 
 
 ## 📞 문의하기
