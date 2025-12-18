@@ -225,20 +225,6 @@ fx-lstm-analysis/
 
 ---
 
-## 🔄 Project Comparison
-
-| Feature | FX-Forecasting-with-LSTM | fx-lstm-analysis |
-|---------|--------------------------|------------------|
-| **Interface** | Gradio Web UI | Command Line |
-| **Ease of Use** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| **Modularity** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Analysis Depth** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Visualization** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Customization** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Target Users** | General users, Demo | Developers, Researchers |
-| **Deployment** | Easy web app deployment | API/Service integration |
-
----
 
 ## 📚 Learning Resources
 
