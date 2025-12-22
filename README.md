@@ -9,13 +9,14 @@
 [![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.3+-orange.svg)](https://scikit-learn.org/)
 [![License](https://img.shields.io/badge/License-Custom-red.svg)](#-license)
 
-This repository contains two USD/KRW exchange rate forecasting projects using LSTM neural networks.
+This repository contains exchange rate forecasting projects using LSTM neural networks and Bank of Korea API for data collection.
 
 ## 📋 Table of Contents
 
 - [Project Overview](#-project-overview)
 - [Project 1: FX-Forecasting-with-LSTM](#-project-1-fx-forecasting-with-lstm)
 - [Project 2: fx-lstm-analysis](#-project-2-fx-lstm-analysis)
+- [Project 3: bok-exchange-rate](#-project-3-bok-exchange-rate-new)
 - [Project Comparison](#-project-comparison)
 - [Learning Resources](#-learning-resources)
 - [Development Environment](#️-development-environment)
@@ -25,10 +26,11 @@ This repository contains two USD/KRW exchange rate forecasting projects using LS
 
 ## 📊 Project Overview
 
-This repository includes two exchange rate forecasting projects:
+This repository includes three exchange rate related projects:
 
 1. **[FX-Forecasting-with-LSTM](FX-Forecasting-with-LSTM/)**: Gradio web interface-based forecasting system
 2. **[fx-lstm-analysis](fx-lstm-analysis/)**: Modular data collection and analysis system
+3. **[bok-exchange-rate](bok-exchange-rate/)**: Bank of Korea API exchange rate data collector 🆕
 
 ---
 
@@ -222,6 +224,157 @@ fx-lstm-analysis/
 ├── requirements.txt        # Dependencies
 └── README.md              # Project documentation
 ```
+
+---
+
+## 📁 Project 3: bok-exchange-rate 🆕
+
+### Overview
+Official Bank of Korea (BOK) ECOS API를 활용한 환율 데이터 수집 도구입니다. USD, JPY, CNY 등 주요 통화의 환율 정보를 수집하고 분석할 수 있습니다.
+
+### Features
+- ✅ **실시간 환율 조회**: 최신 환율 정보 실시간 조회
+- ✅ **과거 데이터 수집**: 지정 기간의 환율 데이터 수집
+- ✅ **여러 통화 지원**: USD, JPY, CNY 동시 조회 가능
+- ✅ **통계 분석**: 최저/최고/평균/변동성 자동 계산
+- ✅ **CSV 내보내기**: 데이터 저장 및 공유
+- ✅ **완전한 테스트**: Mock 및 통합 테스트 포함
+- ✅ **.env 파일 지원**: API 키 안전 관리
+
+### 🚀 Quick Start
+
+```bash
+cd bok-exchange-rate
+
+# 패키지 설치
+pip install -r requirements_exchange_rate.txt
+
+# .env 파일 생성 (예제 파일 복사)
+cp .env.example .env
+# .env 파일을 열어서 API 키 입력
+
+# 예제 실행
+python example_usage.py
+```
+
+### Tech Stack
+- Python 3.8+
+- Requests 2.31+
+- Pandas 2.0+
+- python-dotenv 1.0+ (환경변수 관리)
+
+### 📊 Latest Test Results (2025-12-22)
+
+#### 현재 환율 정보
+```
+미국 달러 (USD): 1,477.80원
+일본 엔화 (JPY):   937.78원
+중국 위안 (CNY):   210.11원
+```
+
+#### USD/KRW 최근 3개월 통계 (2025-09-23 ~ 2025-12-22)
+- 데이터 건수: 60건
+- 최저 환율: 1,393.80원
+- 최고 환율: 1,478.60원
+- 평균 환율: 1,445.36원
+- 표준 편차: 26.57원
+- 최대 상승: 18.60원/일
+- 최대 하락: -11.00원/일
+- 평균 변동: 3.80원/일
+
+#### 통화별 환율 비교 (최근 6개월)
+| 통화 | 최저 | 최고 | 평균 | 변동폭 |
+|------|------|------|------|--------|
+| USD | 1,352.60원 | 1,478.60원 | 1,413.07원 | 126.00원 |
+| JPY | 915.08원 | 956.43원 | 940.37원 | 41.35원 |
+| CNY | 189.02원 | 210.24원 | 198.16원 | 21.22원 |
+
+#### 통화간 상관관계 분석
+```
+          USD       JPY       CNY
+USD  1.000000  0.247988  0.993562
+JPY  0.247988  1.000000  0.256494
+CNY  0.993562  0.256494  1.000000
+```
+- **USD ↔ CNY**: 0.99 (매우 강한 양의 상관관계)
+- **USD ↔ JPY**: 0.25 (약한 양의 상관관계)
+- **JPY ↔ CNY**: 0.26 (약한 양의 상관관계)
+
+#### 데이터 수집 성과
+- ✅ 2024년 전체 데이터 수집 완료 (245건)
+- ✅ CSV 파일 4개 생성
+  - `exchange_rate_USD_2024.csv`
+  - `exchange_rate_JPY_2024.csv`
+  - `exchange_rate_CNY_2024.csv`
+  - `exchange_rates_all_2024.csv` (통합)
+
+### 사용 예제
+
+```python
+from exchange_rate_fetcher import ExchangeRateFetcher
+from dotenv import load_dotenv
+import os
+
+# .env 파일에서 API 키 로드
+load_dotenv()
+api_key = os.getenv('BOK_API_KEY')
+
+# API 초기화
+fetcher = ExchangeRateFetcher(api_key)
+
+# 최신 환율 조회
+latest = fetcher.get_latest_rate('USD')
+print(f"현재 USD 환율: {latest['rate']:,.2f}원")
+
+# 과거 데이터 조회
+df = fetcher.fetch_exchange_rate('USD', '20240101', '20241231')
+print(f"평균 환율: {df['DATA_VALUE'].mean():,.2f}원")
+```
+
+### API 키 설정 (.env 파일 사용)
+
+**✅ 권장 방법: .env 파일 사용**
+
+1. [한국은행 ECOS](https://ecos.bok.or.kr/) 가입
+2. API 인증키 신청
+3. `.env` 파일 생성:
+   ```bash
+   cp .env.example .env
+   ```
+4. `.env` 파일 편집:
+   ```
+   BOK_API_KEY=your_api_key_here
+   ```
+5. Git에 자동 제외됨 (`.gitignore`에 이미 추가됨)
+
+**대체 방법: 환경변수 직접 설정**
+```bash
+export BOK_API_KEY='your_api_key_here'
+```
+
+### 보안 관리
+- ✅ `.env` 파일은 `.gitignore`에 포함되어 Git에 업로드되지 않음
+- ✅ `.env.example` 파일 제공으로 설정 방법 안내
+- ✅ `python-dotenv` 패키지로 환경변수 안전 관리
+
+### Project Structure
+```
+bok-exchange-rate/
+├── .env                          # API 키 (Git 제외)
+├── .env.example                  # 환경변수 샘플
+├── .gitignore                    # Git 제외 파일
+├── exchange_rate_fetcher.py      # 메인 모듈
+├── test_exchange_rate.py         # 테스트 코드
+├── example_usage.py              # 사용 예제
+├── requirements_exchange_rate.txt # 의존성
+├── README.md                     # Quick Start 가이드
+└── README_exchange_rate.md       # 상세 API 문서
+```
+
+### 참고 자료
+- [프로젝트 상세 문서](bok-exchange-rate/README.md)
+- [API 문서](bok-exchange-rate/README_exchange_rate.md)
+- [참고 블로그](https://yenpa.tistory.com/106)
 
 ---
 
